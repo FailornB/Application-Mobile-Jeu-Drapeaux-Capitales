@@ -1,0 +1,60 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    // Ajout de namespace au bon endroit
+    namespace = "com.example.worldover"
+
+    // Configuration du SDK
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.example.worldover"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    // Core Compose dependencies
+    implementation("androidx.compose.ui:ui:1.5.3")
+    implementation("androidx.compose.material:material:1.5.3")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.3")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.3")
+
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:2.7.4")
+
+    // Image loading with Coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Material Components
+    implementation("com.google.android.material:material:1.9.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Testing
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.3")
+}
