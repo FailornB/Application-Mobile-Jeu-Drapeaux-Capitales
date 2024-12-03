@@ -8,7 +8,7 @@ android {
     namespace = "com.example.worldover"
 
     // Configuration du SDK
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.worldover"
@@ -34,10 +34,14 @@ android {
 }
 
 dependencies {
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.34.0")
+    implementation("androidx.compose.material:material-icons-extended:1.5.3")
     // Core Compose dependencies
     implementation("androidx.compose.ui:ui:1.5.3")
     implementation("androidx.compose.material:material:1.5.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.3")
+    implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.material3.android)
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.3")
 
     // Navigation Compose
@@ -45,12 +49,14 @@ dependencies {
 
     // Image loading with Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-svg:2.4.0")
 
     // Material Components
     implementation("com.google.android.material:material:1.9.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
