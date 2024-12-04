@@ -21,9 +21,11 @@ object ApiLocal {
                 flags = localCountry.flags?.png,
                 translations = localCountry.translations?.mapValues { it.value.common } ?: emptyMap(),
                 population = localCountry.population ?: 0,
-                continent = localCountry.continents?.firstOrNull()
+                continent = localCountry.continents?.firstOrNull(),
+                languages = localCountry.languages?.values?.toList() ?: emptyList(),
+                currencies = localCountry.currencies
             )
-            println("Country: $country") // Log pour vérifier chaque pays
+            //println("Country: $country") // Log pour vérifier chaque pays
             country
         }
 

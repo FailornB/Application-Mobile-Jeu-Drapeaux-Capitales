@@ -9,8 +9,10 @@ data class Country(
     val capital: String?,
     val flags: String?,
     val translations: Map<String, String>, // Ajout pour gérer les traductions
-    val population: Int,
-    val continent: String?
+    val population: Long?,
+    val continent: String?,
+    val languages: List<String>?,
+    val currencies: Map<String, Currency>?
 )
 
 interface CountriesApi {

@@ -79,6 +79,22 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Nouveau bouton "Retour à l'accueil"
+            Button(
+                onClick = { navController.navigate(Screen.Home.route) },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50)),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text(
+                    text = "Retour à l'accueil",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
             // Progress bar and score
             LinearProgressIndicator(
                 progress = questionCount / 10f,

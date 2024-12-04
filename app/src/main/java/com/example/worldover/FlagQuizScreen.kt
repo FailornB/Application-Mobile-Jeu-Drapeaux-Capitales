@@ -67,6 +67,22 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            // Nouveau bouton "Retour à l'accueil"
+            Button(
+                onClick = { navController.navigate(Screen.Home.route) },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50)),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text(
+                    text = "Retour à l'accueil",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
             if (errorMessage != null) {
                 Text("Erreur : $errorMessage", color = Color.Red, modifier = Modifier.padding(16.dp))
             } else if (countries.isEmpty() || currentCountry == null) {
