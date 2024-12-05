@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "29499049967",
+    "project_id": "worldover-71d92",
+    "storage_bucket": "worldover-71d92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29499049967:android:9f7b39f7323c4b6186581a",
+        "android_client_info": {
+          "package_name": "com.example.worldover"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbIMlywu-ADDwg8VqSP5AJtdqYkyqvrfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

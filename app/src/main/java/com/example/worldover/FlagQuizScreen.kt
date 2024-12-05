@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -67,22 +70,6 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            // Nouveau bouton "Retour à l'accueil"
-            Button(
-                onClick = { navController.navigate(Screen.Home.route) },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF4CAF50)),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Text(
-                    text = "Retour à l'accueil",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
             if (errorMessage != null) {
                 Text("Erreur : $errorMessage", color = Color.Red, modifier = Modifier.padding(16.dp))
             } else if (countries.isEmpty() || currentCountry == null) {
@@ -193,11 +180,15 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
             }
         }
     } else {
-        // Centrer le message de fin
+        // Écran de fin
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF1E1E2D)),
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFF3A1C71), Color(0xFFD76D77), Color(0xFFFFAF7B))
+                    )
+                ),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -205,38 +196,77 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Quiz terminé !",
+                    text = "🎉 Félicitations ! 🎉",
                     color = Color.White,
-                    fontSize = 24.sp,
+                    fontSize = 36.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(16.dp)
                 )
                 Text(
-                    text = "Votre score final : $score / 10",
-                    color = Color(0xFF4CAF50),
-                    fontSize = 20.sp,
+                    text = "Votre score final :",
+                    color = Color(0xFFFFC107),
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp)
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "$score / 10",
+                    color = Color.White,
+                    fontSize = 48.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Bouton "Rejouer"
                 Button(
                     onClick = { questionCount = 0; score = 0 },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                        .fillMaxWidth(0.8f)
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFF4CAF50)
+                    ),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text("Rejouer", fontSize = 16.sp)
+                    Text(
+                        text = "Rejouer",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Bouton "Retour au menu"
                 Button(
                     onClick = { navController.navigate(Screen.Home.route) },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                        .fillMaxWidth(0.8f)
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFFD32F2F)
+                    ),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text("Retour au menu", fontSize = 16.sp)
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = "Home Icon",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Retour au Menu",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
                 }
             }
         }

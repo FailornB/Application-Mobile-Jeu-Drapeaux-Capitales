@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -89,6 +90,8 @@ fun CountryDetailsScreen(navController: NavHostController, context: Context) {
             else -> {
                 Column {
 
+                    // Barre supérieure avec l'icône retour
+                    TopBar(navController)
                     SearchBar(searchQuery) { query -> searchQuery = query }
                     ContinentFilterBar(selectedContinent) { continent -> selectedContinent = continent }
                     SortOrderBar(sortOrder) { order -> sortOrder = order }
@@ -112,6 +115,32 @@ fun CountryDetailsScreen(navController: NavHostController, context: Context) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun TopBar(navController: NavHostController) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF2E2E3D))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = { navController.navigate(Screen.Home.route) }) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Retour",
+                tint = Color.White
+            )
+        }
+        Text(
+            text = "Détails des pays",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }
 
@@ -145,7 +174,7 @@ fun SearchBar(searchQuery: String, onSearchQueryChanged: (String) -> Unit) {
 
 @Composable
 fun ContinentFilterBar(selectedContinent: String, onContinentSelected: (String) -> Unit) {
-    val continents = listOf("All", "Africa", "Asia", "Europe", "Americas", "Oceania")
+    val continents = listOf("All", "Africa", "Asia", "Europe", "North America", "South America", "Oceania")
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
