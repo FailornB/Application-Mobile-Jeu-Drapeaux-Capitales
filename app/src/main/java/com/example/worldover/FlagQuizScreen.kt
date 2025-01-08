@@ -145,9 +145,18 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
                                 if (!showFeedback) {
                                     selectedOption = option
                                     showFeedback = true
-                                    if (option == currentCountry) {
+                                    val isCorrect = option == currentCountry
+                                    if (isCorrect) {
                                         score++
                                     }
+
+                                    // ✅ Sauvegarde des statistiques dans Firebase
+                                    StatsRepository.saveQuizStats(
+                                        continent = currentCountry?.continent ?: "Unknown", // Assurez-vous que le continent est extrait correctement
+                                        isCorrect = isCorrect,
+                                        quizType = "flags"
+                                    )
+
                                     coroutineScope.launch {
                                         delay(2000)
                                         if (questionCount < 10) {
@@ -175,6 +184,7 @@ fun FlagQuizScreen(navController: NavHostController, context: Context) {
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
+
                     }
                 }
             }

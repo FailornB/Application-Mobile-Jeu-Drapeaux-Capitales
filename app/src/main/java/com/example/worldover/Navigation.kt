@@ -13,6 +13,7 @@ sealed class Screen(val route: String) {
     object CountryDetails : Screen("country_details")
     object Login : Screen("login")
     object Register : Screen("register")
+    object Stats : Screen("stats")
 }
 
 @Composable
@@ -24,6 +25,7 @@ fun AppNavigation(navController: NavHostController, context: Context) {
         composable(Screen.FlagQuiz.route) { FlagQuizScreen(navController, context) }
         composable(Screen.CapitalQuiz.route) { CapitalQuizScreen(navController) }
         composable(Screen.CountryDetails.route) { CountryDetailsScreen(navController, context) }
+        composable(Screen.Stats.route) { StatsScreen(navController) }
     }
 }
 

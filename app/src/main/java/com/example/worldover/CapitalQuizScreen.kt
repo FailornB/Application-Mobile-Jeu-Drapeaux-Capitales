@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
 fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiClient.api) {
     val coroutineScope = rememberCoroutineScope()
 
-    // States for quiz management
     var currentQuestion by remember { mutableStateOf<Question?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var selectedOption by remember { mutableStateOf<String?>(null) }
@@ -35,7 +34,6 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
     var showFeedback by remember { mutableStateOf(false) }
     var apiError by remember { mutableStateOf(false) }
 
-    // Load the first question when the composable is first displayed
     LaunchedEffect(Unit) {
         try {
             currentQuestion = loadQuestion(api)
@@ -47,25 +45,19 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
     }
 
     if (isLoading) {
-        // Display loading screen
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF1E1E2D)),
+            modifier = Modifier.fillMaxSize().background(Color(0xFF1E1E2D)),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(color = Color.White)
         }
     } else if (apiError) {
-        // Display API error message
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF1E1E2D)),
+            modifier = Modifier.fillMaxSize().background(Color(0xFF1E1E2D)),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Failed to load the quiz. Please try again later.",
+                text = "Échec du chargement du quiz. Veuillez réessayer.",
                 color = Color.Red,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
@@ -73,21 +65,14 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
             )
         }
     } else if (questionCount < 10) {
-        // Display the quiz question
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF1E1E2D))
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize().background(Color(0xFF1E1E2D)).padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Progress bar and score
             LinearProgressIndicator(
                 progress = questionCount / 10f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp),
+                modifier = Modifier.fillMaxWidth().height(8.dp),
                 color = Color(0xFF4CAF50),
                 backgroundColor = Color(0xFF2E2E3D)
             )
@@ -96,15 +81,12 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
                 text = "Score: $score / 10",
                 color = Color.White,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                fontWeight = FontWeight.Bold
             )
-
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Display question
             Text(
-                text = "${currentQuestion!!.countryName}",
+                text = "${currentQuestion?.countryName}",
                 color = Color.White,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
@@ -114,13 +96,12 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Display answer options
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                currentQuestion!!.options.forEach { option ->
+                currentQuestion?.options?.forEach { option ->
                     AnswerButton(
                         option = option,
                         correctAnswer = currentQuestion!!.correctAnswer,
@@ -131,6 +112,13 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
                                 selectedOption = option
                                 val isCorrect = option == currentQuestion!!.correctAnswer
                                 if (isCorrect) score++
+
+                                StatsRepository.saveQuizStats(
+                                    continent = currentQuestion!!.continent ?: "Unknown",
+                                    isCorrect = isCorrect,
+                                    quizType = "capitals"
+                                )
+
                                 showFeedback = true
 
                                 coroutineScope.launch {
@@ -147,93 +135,40 @@ fun CapitalQuizScreen(navController: NavHostController, api: CountriesApi = ApiC
             }
         }
     } else {
-        // Fin du quiz
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color(0xFF3A1C71), Color(0xFFD76D77), Color(0xFFFFAF7B))
-                    )
-                ),
+            modifier = Modifier.fillMaxSize().background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFF3A1C71), Color(0xFFD76D77), Color(0xFFFFAF7B))
+                )
+            ),
             contentAlignment = Alignment.Center
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "🎉 Félicitations ! 🎉",
                     color = Color.White,
                     fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Votre score final :",
-                    color = Color(0xFFFFC107),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-                Text(
-                    text = "$score / 10",
+                    text = "Votre score final : $score / 10",
                     color = Color.White,
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(vertical = 16.dp)
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Bouton "Rejouer"
                 Button(
                     onClick = { questionCount = 0; score = 0 },
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFF4CAF50)
-                    ),
-                    shape = RoundedCornerShape(16.dp)
+                    modifier = Modifier.fillMaxWidth(0.8f).height(50.dp)
                 ) {
-                    Text(
-                        text = "Rejouer",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    Text("Rejouer", fontSize = 18.sp, color = Color.White)
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Bouton "Retour au menu"
                 Button(
                     onClick = { navController.navigate(Screen.Home.route) },
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color(0xFFD32F2F)
-                    ),
-                    shape = RoundedCornerShape(16.dp)
+                    modifier = Modifier.fillMaxWidth(0.8f).height(50.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "Home Icon",
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp)
-                    )
+                    Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.White)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Retour au Menu",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    Text("Retour au Menu", fontSize = 18.sp, color = Color.White)
                 }
             }
         }
@@ -251,7 +186,7 @@ fun AnswerButton(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             showFeedback && option == correctAnswer -> Color.Green
-            showFeedback && option == selectedOption && option != correctAnswer -> Color.Red
+            showFeedback && option == selectedOption -> Color.Red
             else -> Color(0xFF3F51B5)
         }
     )
@@ -260,36 +195,30 @@ fun AnswerButton(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .height(60.dp)
+        modifier = Modifier.fillMaxWidth(0.8f).height(60.dp)
     ) {
-        Text(
-            text = option,
-            color = Color.White,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center
-        )
+        Text(option, color = Color.White, fontSize = 16.sp)
     }
 }
 
 data class Question(
     val countryName: String,
     val correctAnswer: String,
-    val options: List<String>
+    val options: List<String>,
+    val continent: String?
 )
 
-suspend fun loadQuestion(api: CountriesApi): Question? {
-    return try {
-        val countries = withContext(Dispatchers.IO) { api.getAllCountries() }
-            .filter { it.capital?.isNotEmpty() == true }
-        val country = countries.randomOrNull() ?: throw Exception("No countries available")
-        val options = generateOptions(countries, country.capital!!)
-        Question(countryName = country.name, correctAnswer = country.capital!!, options = options)
-    } catch (e: Exception) {
-        throw e
-    }
+suspend fun loadQuestion(api: CountriesApi): Question {
+    val countries = withContext(Dispatchers.IO) { api.getAllCountries() }
+        .filter { it.capital?.isNotEmpty() == true }
+    val country = countries.randomOrNull() ?: throw Exception("No countries available")
+    val options = generateOptions(countries, country.capital!!)
+    return Question(
+        countryName = country.name,
+        correctAnswer = country.capital!!,
+        options = options,
+        continent = country.continent ?: "Unknown"
+    )
 }
 
 fun generateOptions(countries: List<Country>, correctAnswer: String): List<String> {

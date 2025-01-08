@@ -43,6 +43,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.3")
     implementation(libs.androidx.media3.common.ktx)
     implementation(libs.androidx.material3.android)
+    implementation(libs.firebase.database.ktx)
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.3")
 
     // Navigation Compose

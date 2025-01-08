@@ -21,7 +21,7 @@ object ApiLocal {
                 flags = localCountry.flags?.png,
                 translations = localCountry.translations?.mapValues { it.value.common } ?: emptyMap(),
                 population = localCountry.population ?: 0,
-                continent = localCountry.continents?.firstOrNull(),
+                continent = localCountry.continents?.firstOrNull() ?: "Unknown",
                 languages = localCountry.languages?.values?.toList() ?: emptyList(),
                 currencies = localCountry.currencies
             )

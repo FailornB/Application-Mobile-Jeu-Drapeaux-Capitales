@@ -42,6 +42,17 @@ fun HomeScreen(navController: NavHostController) {
                 .padding(16.dp)
         )
 
+        Button(
+            onClick = { navController.navigate(Screen.Stats.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text("Voir les Statistiques", fontSize = 16.sp)
+        }
+
         // Buttons
         Button(
             onClick = { navController.navigate(Screen.FlagQuiz.route) },
