@@ -3,15 +3,18 @@ package com.example.worldover
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ShowChart
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Public
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.ShowChart
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -19,6 +22,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.compose.ui.platform.LocalContext
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val context = LocalContext.current
@@ -31,66 +35,95 @@ fun HomeScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Logo
+        // Espacement ajouté au-dessus du logo
+        Spacer(modifier = Modifier.height(32.dp))
+        // Logo centré et agrandi
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data("file:///android_asset/WorldOver.png") // Chemin vers l'image dans assets
+                .data("file:///android_asset/WorldOver.png") // Chemin vers le logo dans les assets
                 .build(),
-            contentDescription = "Logo",
+            contentDescription = "Logo WorldOver",
             modifier = Modifier
-                .size(300.dp)
-                .padding(16.dp)
+                .size(300.dp) // Taille augmentée
+                .padding(bottom = 16.dp) // Espacement avec les blocs
         )
 
-        Button(
-            onClick = { navController.navigate(Screen.Stats.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
+        // Blocs en grille 2x2
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Voir les Statistiques", fontSize = 16.sp)
-        }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                HomeCard(
+                    icon = Icons.Default.School,
+                    title = "Capitales",
+                    onClick = { navController.navigate(Screen.CapitalQuiz.route) }
+                )
 
-        // Buttons
-        Button(
-            onClick = { navController.navigate(Screen.FlagQuiz.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text("Quiz des Drapeaux", fontSize = 16.sp)
-        }
+                HomeCard(
+                    icon = Icons.Default.Flag,
+                    title = "Drapeaux",
+                    onClick = { navController.navigate(Screen.FlagQuiz.route) }
+                )
+            }
 
-        Button(
-            onClick = { navController.navigate(Screen.CapitalQuiz.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text("Quiz des Capitales", fontSize = 16.sp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                HomeCard(
+                    icon = Icons.AutoMirrored.Filled.ShowChart,
+                    title = "Statistiques",
+                    onClick = { navController.navigate(Screen.Stats.route) }
+                )
+                HomeCard(
+                    icon = Icons.Default.Public,
+                    title = "Apprendre",
+                    onClick = { navController.navigate(Screen.CountryDetails.route) }
+                )
+            }
         }
+    }
+}
 
-        Button(
-            onClick = { navController.navigate(Screen.CountryDetails.route) },
+@Composable
+fun HomeCard(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .size(180.dp) // Blocs agrandis
+            .padding(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF2E2E3D)),
+        onClick = onClick
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp)
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = Icons.Default.Public,
-                contentDescription = "Country Details",
-                tint = Color.White,
-                modifier = Modifier.padding(end = 8.dp)
+                imageVector = icon,
+                contentDescription = title,
+                tint = Color(0xFFFFC107), // Couleur des icônes
+                modifier = Modifier.size(64.dp) // Icônes légèrement agrandies
             )
-            Text("Détails des Pays", fontSize = 16.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
         }
     }
 }
