@@ -67,7 +67,7 @@ fun HomeScreen(navController: NavHostController) {
                 HomeCard(
                     icon = Icons.Default.Flag,
                     title = "Drapeaux",
-                    onClick = { navController.navigate(Screen.FlagQuiz.route) }
+                    onClick = { navController.navigate(Screen.QuizSelection.route) }
                 )
             }
 

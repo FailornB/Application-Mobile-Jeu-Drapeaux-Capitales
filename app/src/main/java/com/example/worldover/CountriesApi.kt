@@ -12,7 +12,8 @@ data class Country(
     val population: Long?,
     val continent: String?,
     val languages: List<String>?,
-    val currencies: Map<String, Currency>?
+    val currencies: Map<String, Currency>?,
+    val difficulty: String
 )
 
 interface CountriesApi {

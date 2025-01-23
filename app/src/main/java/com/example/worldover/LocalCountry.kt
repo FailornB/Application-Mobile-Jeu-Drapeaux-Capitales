@@ -9,7 +9,8 @@ data class LocalCountry(
     val population: Long?,
     val continents: List<String>?,
     val languages: Map<String, String>?,
-    val currencies: Map<String, Currency>?
+    val currencies: Map<String, Currency>?,
+    val difficulty: String
 )
 
 data class LocalName(

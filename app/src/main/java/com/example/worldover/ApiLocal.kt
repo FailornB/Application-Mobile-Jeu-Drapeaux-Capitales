@@ -8,7 +8,7 @@ import java.io.InputStreamReader
 
 object ApiLocal {
     fun getAllCountries(context: Context): List<Country> {
-        val inputStream = context.assets.open("all.json")
+        val inputStream = context.assets.open("all_with_difficulty.json")
         val reader = InputStreamReader(inputStream)
 
         val type = object : TypeToken<List<LocalCountry>>() {}.type
@@ -23,7 +23,8 @@ object ApiLocal {
                 population = localCountry.population ?: 0,
                 continent = localCountry.continents?.firstOrNull() ?: "Unknown",
                 languages = localCountry.languages?.values?.toList() ?: emptyList(),
-                currencies = localCountry.currencies
+                currencies = localCountry.currencies,
+                difficulty = localCountry.difficulty
             )
             //println("Country: $country") // Log pour vérifier chaque pays
             country

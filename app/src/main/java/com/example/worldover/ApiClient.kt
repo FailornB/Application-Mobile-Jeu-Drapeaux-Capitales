@@ -6,28 +6,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-/*
-object ApiClient {
-    private const val BASE_URL = "https://restcountries.com/v3.1/"
-
-
-    private val okHttpClient = OkHttpClient.Builder()
-        .protocols(listOf(Protocol.HTTP_1_1)) // Forcer HTTP/1.1
-        .connectTimeout(60, TimeUnit.SECONDS) // Temps de connexion
-        .readTimeout(60, TimeUnit.SECONDS)    // Temps de lecture
-        .writeTimeout(60, TimeUnit.SECONDS)   // Temps d'écriture
-        .retryOnConnectionFailure(true)       // Réessayer en cas d'échec de connexion
-        .build()
-
-    val api: CountriesApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient) // Utilise le client OkHttp configuré
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CountriesApi::class.java)
-    }
-}*/
 
 
 
@@ -59,6 +37,28 @@ object ApiClient {
     }
 }
 
+/*
+object ApiClient {
+    private const val BASE_URL = "https://restcountries.com/v3.1/"
+
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .protocols(listOf(Protocol.HTTP_1_1)) // Forcer HTTP/1.1
+        .connectTimeout(60, TimeUnit.SECONDS) // Temps de connexion
+        .readTimeout(60, TimeUnit.SECONDS)    // Temps de lecture
+        .writeTimeout(60, TimeUnit.SECONDS)   // Temps d'écriture
+        .retryOnConnectionFailure(true)       // Réessayer en cas d'échec de connexion
+        .build()
+
+    val api: CountriesApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient) // Utilise le client OkHttp configuré
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CountriesApi::class.java)
+    }
+}*/
 
 
 /*
