@@ -6,14 +6,14 @@ plugins {
 
 android {
     // Ajout de namespace au bon endroit
-    namespace = "com.example.worldover"
+    namespace = "com.example.worldovertest"
 
     // Configuration du SDK
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.worldover"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -69,6 +69,8 @@ dependencies {
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorldOver</string>
+    <string name="default_web_client_id">29499049967-h7d2uct9354q21i4qr4fr213310rg6h3.apps.googleusercontent.com</string>
+
 </resources>

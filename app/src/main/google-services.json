@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "29499049967",
+    "firebase_url": "https://worldover-71d92-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "worldover-71d92",
     "storage_bucket": "worldover-71d92.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.worldover"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "29499049967-h7d2uct9354q21i4qr4fr213310rg6h3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDbIMlywu-ADDwg8VqSP5AJtdqYkyqvrfQ"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412539084617-no79hfs5gqccqptov1idjm2efmtocp8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
