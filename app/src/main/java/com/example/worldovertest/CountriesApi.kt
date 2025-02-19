@@ -19,6 +19,6 @@ data class Country(
 interface CountriesApi {
     @GET("all")
     suspend fun getAllCountries(
-        @Query("access_key") accessKey: String = "b6bd86dcb3f364b1b0c558454492f270" // Ajout de la clé API
+        @Query("access_key") accessKey: String = "0e2ed87c85591617a4cc75f1e33a77fe" // Ajout de la clé API
     ): List<Country>
 }

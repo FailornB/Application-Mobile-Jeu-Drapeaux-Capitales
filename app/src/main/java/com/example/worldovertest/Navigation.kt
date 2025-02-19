@@ -64,7 +64,7 @@ fun AppNavigation(navController: NavHostController, context: Context) {
             val continent = backStackEntry.arguments?.getString("continent") ?: "Tous"
             FlagQuizScreen(navController, context, difficulty, continent)
         }
-
+        composable(Screen.CapitalQuiz.route) { CapitalQuizScreen(navController) }
         composable(Screen.CountryDetails.route) { CountryDetailsScreen(navController, context) }
         composable(Screen.Stats.route) { StatsScreen(navController) }
         composable(Screen.UserProfile.route) { UserProfileScreen(navController) }

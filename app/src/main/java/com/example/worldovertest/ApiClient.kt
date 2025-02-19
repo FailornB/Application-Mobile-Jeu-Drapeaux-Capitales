@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
     private const val BASE_URL = "https://api.countrylayer.com/v2/"
-    private const val ACCESS_KEY = "b6bd86dcb3f364b1b0c558454492f270" // Remplacez par votre clé API
+    private const val ACCESS_KEY = "0e2ed87c85591617a4cc75f1e33a77fe" // Remplacez par votre clé API
 
     // Configure OkHttpClient
     private val okHttpClient: OkHttpClient by lazy {

@@ -1,5 +1,6 @@
 package com.example.worldovertest
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -209,17 +210,28 @@ data class Question(
 )
 
 suspend fun loadQuestion(api: CountriesApi): Question {
-    val countries = withContext(Dispatchers.IO) { api.getAllCountries() }
-        .filter { it.capital?.isNotEmpty() == true }
-    val country = countries.randomOrNull() ?: throw Exception("No countries available")
-    val options = generateOptions(countries, country.capital!!)
-    return Question(
-        countryName = country.name,
-        correctAnswer = country.capital!!,
-        options = options,
-        continent = country.continent ?: "Unknown"
-    )
+    return try {
+        val countries = withContext(Dispatchers.IO) { api.getAllCountries() }
+            .filter { !it.capital.isNullOrEmpty() }
+        Log.d("DEBUG", "Nombre de pays récupérés : ${countries.size}")
+
+
+        if (countries.isEmpty()) throw Exception("Aucun pays avec une capitale trouvée.")
+
+        val country = countries.random()
+        val options = generateOptions(countries, country.capital!!)
+
+        Question(
+            countryName = country.name,
+            correctAnswer = country.capital!!,
+            options = options,
+            continent = country.continent ?: "Inconnu"
+        )
+    } catch (e: Exception) {
+        throw Exception("Erreur lors du chargement des questions : ${e.message}")
+    }
 }
+
 
 fun generateOptions(countries: List<Country>, correctAnswer: String): List<String> {
     val incorrectOptions = countries
