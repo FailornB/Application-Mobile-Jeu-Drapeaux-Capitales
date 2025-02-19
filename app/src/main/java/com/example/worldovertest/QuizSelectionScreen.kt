@@ -52,7 +52,7 @@ fun QuizSelectionScreen(navController: NavHostController, quizType: String) {
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFFFFC107),
-            modifier = Modifier.padding(bottom = 24.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
         // Dropdown pour la difficulté
@@ -70,7 +70,7 @@ fun QuizSelectionScreen(navController: NavHostController, quizType: String) {
             onContinentSelected = { selectedContinent = it }
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
         // Bouton pour commencer
         Button(
@@ -80,8 +80,7 @@ fun QuizSelectionScreen(navController: NavHostController, quizType: String) {
                 navController.navigate(Screen.FlagQuiz.createRoute(selectedEnglishDifficulty, selectedEnglishContinent))
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
+                .fillMaxWidth(0.9f),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
         ) {
@@ -199,7 +198,7 @@ fun ContinentButton(
 ) {
     Card(
         modifier = Modifier
-            .size(140.dp)
+            .size(100.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(

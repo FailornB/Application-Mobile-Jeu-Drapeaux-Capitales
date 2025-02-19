@@ -160,7 +160,7 @@ fun QuizUI(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Titre de la question
             Text(
@@ -168,7 +168,7 @@ fun QuizUI(
                 color = Color.White,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(4.dp),
                 textAlign = TextAlign.Center
             )
 
@@ -177,19 +177,17 @@ fun QuizUI(
                 model = currentCountry.flags,
                 contentDescription = "Drapeau",
                 modifier = Modifier
-                    .size(300.dp) // Drapeau plus grand
-                    .padding(16.dp)
+                    .size(250.dp) // Drapeau plus grand
+                    .padding(4.dp)
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             // Affichage des options
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 options.forEach { option ->
-                    AnswerButton(
+                    MultiplayerAnswerButton(
                         option = option,
                         isCorrect = option == currentCountry,
                         selectedOption = selectedOption,

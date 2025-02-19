@@ -8,11 +8,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
@@ -22,7 +25,7 @@ fun RegisterScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") } // Nouveau champ
+    var username by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
@@ -34,6 +37,19 @@ fun RegisterScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Affichage du logo via AsyncImage
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data("file:///android_asset/WorldOver.png") // Chemin vers l'image dans les assets
+                .build(),
+            contentDescription = "Logo WorldOver",
+            modifier = Modifier
+                .size(200.dp) // Taille du logo
+                .padding(bottom = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = "Créer un compte",
             fontSize = 28.sp,
@@ -43,6 +59,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Champ pour le pseudo
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
@@ -57,6 +74,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Champ pour l'email
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -71,6 +89,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Champ pour le mot de passe
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -86,6 +105,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Champ pour confirmer le mot de passe
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
@@ -101,6 +121,7 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Bouton pour valider l'inscription
         if (isLoading) {
             CircularProgressIndicator(color = Color(0xFFFFC107))
         } else {
@@ -136,10 +157,14 @@ fun RegisterScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Bouton pour naviguer vers l'écran de connexion
         TextButton(onClick = { navController.navigate("login") }) {
             Text("Déjà un compte ? Connectez-vous.", color = Color(0xFFFFC107))
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Affichage d'un message d'erreur si besoin
         errorMessage?.let {
             Text(
                 text = it,
@@ -152,6 +177,7 @@ fun RegisterScreen(navController: NavHostController) {
     }
 }
 
+// Fonction pour créer un utilisateur dans Firebase
 private fun createUser(
     email: String,
     password: String,

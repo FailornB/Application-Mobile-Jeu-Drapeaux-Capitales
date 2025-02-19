@@ -19,13 +19,17 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun StatsScreen(navController: NavHostController) {
-    var stats by remember { mutableStateOf<Map<String, Map<String, Map<String, Int>>>>(emptyMap()) }
+    var soloStats by remember { mutableStateOf<Map<String, Map<String, Map<String, Int>>>>(emptyMap()) }
+    var multiplayerStats by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    // Fetch stats from the repository
     LaunchedEffect(Unit) {
         StatsRepository.fetchStats { fetchedStats ->
-            stats = fetchedStats
+            soloStats = fetchedStats
+            isLoading = false
+        }
+        MultiplayerStatsRepository.fetchMultiplayerStats { fetchedMultiplayerStats ->
+            multiplayerStats = fetchedMultiplayerStats
             isLoading = false
         }
     }
@@ -35,17 +39,9 @@ fun StatsScreen(navController: NavHostController) {
             .fillMaxSize()
             .background(Color(0xFF1E1E2D))
     ) {
-        // Header with back arrow
         TopAppBar(
             backgroundColor = Color(0xFF2E2E3D),
-            title = {
-                Text(
-                    text = "Statistiques",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            },
+            title = { Text("Statistiques", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
             navigationIcon = {
                 IconButton(onClick = { navController.navigate("home") }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Retour", tint = Color.White)
@@ -59,21 +55,86 @@ fun StatsScreen(navController: NavHostController) {
                 .padding(16.dp)
         ) {
             if (isLoading) {
-                CircularProgressIndicator(
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                CircularProgressIndicator(color = Color.White, modifier = Modifier.align(Alignment.Center))
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(stats.keys.toList()) { quizType ->
-                        StatsCard(quizType = quizType, stats = stats[quizType] ?: emptyMap())
+                    items(soloStats.keys.toList()) { quizType ->
+                        StatsCard(quizType = quizType, stats = soloStats[quizType] ?: emptyMap())
+                    }
+                    item {
+                        MultiplayerStatsCard(multiplayerStats)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MultiplayerStatsCard(stats: Map<String, Long>) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 120.dp)
+            .padding(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = 8.dp,
+        backgroundColor = Color(0xFF2E2E3D)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = "Statistiques Multijoueur",
+                color = Color(0xFFFFC107),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            val totalGames = stats["totalGames"] ?: 0
+            val wins = stats["wins"] ?: 0
+            val winRate = stats["winRate"] ?: 0
+            val bestScore = stats["bestScore"] ?: 0
+            val totalScore = stats["totalScore"] ?: 0
+            val averageScore = if (totalGames > 0) totalScore / totalGames else 0
+
+            MultiplayerStatItem("Victoires", "$wins / $totalGames", if (totalGames > 0) Color.Green else Color.Gray)
+            MultiplayerStatItem("Taux de victoires", "$winRate%", if (winRate >= 50) Color.Green else Color.Red)
+            MultiplayerStatItem("Score total", "$totalScore", Color.White)
+            MultiplayerStatItem("Meilleur score", "$bestScore", Color.Cyan)
+            MultiplayerStatItem("Score moyen", "$averageScore", Color.LightGray)
+        }
+    }
+}
+
+@Composable
+fun MultiplayerStatItem(label: String, value: String, valueColor: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color(0xFF3A3A4A), shape = RoundedCornerShape(12.dp))
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = label,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.weight(1f)
+        )
+        Text(
+            text = value,
+            color = valueColor,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 
